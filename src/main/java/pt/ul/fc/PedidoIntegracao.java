@@ -11,11 +11,11 @@ public class PedidoIntegracao {
     public PedidoIntegracao() {}
 
     /** Integra o pedido (definitivo). */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="aprovado()", to="integrado()")
     public void integrar() {}
 
     /** Fecha o pedido sem o integrar (definitivo). */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="rascunho() || emRevisao()", to="fechado()")
     public void encerrar() {}
 
     /** Pede revisão do rascunho. */
@@ -23,10 +23,10 @@ public class PedidoIntegracao {
     public void pedirRevisao() {}
 
     /** Aprova o pedido. */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="emRevisao()", to="aprovado()")
     public void aprovar() {}
 
     /** Pede alterações; volta a rascunho. */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="emRevisao() || aprovado()", to="rascunho()")
     public void pedirAlteracoes() {}
 }
